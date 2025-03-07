@@ -74,36 +74,76 @@ class Satellite:
                        'USB':    False,
                        'PWR':    False}
         # Define burn wires:
-        # self._relayA = digitalio.DigitalInOut(board.RELAY_A)
+
+        # The RELAY_A pin is used in the Satellite class to control a burn wire system, 
+        # typically employed in CubeSat or satellite hardware for deployment mechanisms 
+        # like releasing antennas, solar panels, or other deployable components.
+        # RELAY_A -> D6
+        self._relayA = digitalio.DigitalInOut(board.D6)
+
+
         self._relayA.switch_to_output(drive_mode=digitalio.DriveMode.OPEN_DRAIN)
-        self._resetReg = digitalio.DigitalInOut(board.VBUS_RST)
+
+        # Used to control the reset functionality of the USB power bus (VBUS)
+        # VBUS_RST -> D7
+        self._resetReg = digitalio.DigitalInOut(board.D7)
+
         self._resetReg.switch_to_output(drive_mode=digitalio.DriveMode.OPEN_DRAIN)
 
         # Define battery voltage
-        self._vbatt = AnalogIn(board.BATTERY)
+        # Use an analog pin to measure battery voltage.
+        # BATTERY -> A0
+        self._vbatt = AnalogIn(board.A0)
 
         # Define MPPT charge current measurement
-        self._ichrg = AnalogIn(board.L1PROG)
-        self._chrg = digitalio.DigitalInOut(board.CHRG)
+
+        # Use a digital pin for programming if needed. Programming pin
+        # L1PROG -> D9
+        self._ichrg = AnalogIn(board.D9)
+
+        # Use a digital pin to monitor charging status.
+        # CHRG -> D10
+        self._chrg = digitalio.DigitalInOut(board.D10)
         self._chrg.switch_to_input()
 
+
+    # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=--=-=-=-=-=-=-=-=-
         # Define SPI,I2C,UART
-        self.i2c1  = busio.I2C(board.SCL,board.SDA)
+        # SDA and SCL are the two signal lines used in the I2C (Inter-Integrated Circuit) communication protocol. 
+
+        # The SDA line is used to transmit and receive data between the microcontroller and the connected I2C devices.
+        # SDA -> D20
+        # The SCL line is used to synchronize the communication between the microcontroller and the I2C devices.
+        # SCL -> D21
+        #self.i2c1  = busio.I2C(board.SCL,board.SDA)
         self.spi   = board.SPI()
         self.uart  = busio.UART(board.TX,board.RX)
 
         # Define GPS
-        self.en_gps = digitalio.DigitalInOut(board.EN_GPS)
+        # Use a digital pin to enable/disable the GPS module
+        # EN_GPS -> D11
+        self.en_gps = digitalio.DigitalInOut(board.D11)
         self.en_gps.switch_to_output()
 
         # Define filesystem stuff
         self.logfile="/log.txt"
 
         # Define radio
-        _rf_cs1 = digitalio.DigitalInOut(board.RF1_CS)
-        _rf_rst1 = digitalio.DigitalInOut(board.RF1_RST)
-        self.enable_rf = digitalio.DigitalInOut(board.EN_RF)
-        self.radio1_DIO0=digitalio.DigitalInOut(board.RF1_IO0)
+        # Use digital pins for chip select.
+        # RF1_CS -> D12
+        _rf_cs1 = digitalio.DigitalInOut(board.D12)
+
+        # Use digital pins for reset.
+        # RF1_RST -> D13
+        _rf_rst1 = digitalio.DigitalInOut(board.D13)
+
+        # Use a digital pin to enable/disable the RF module.
+        # EN_RF -> D14
+        self.enable_rf = digitalio.DigitalInOut(board.D14)
+
+        # Used as a Digital I/O (DIO) pin for the Radio 1 module, aka interrupt pin
+        # RF1_IO0 -> D15
+        self.radio1_DIO0=digitalio.DigitalInOut(board.D15)
         # self.enable_rf.switch_to_output(value=False) # if U21
         self.enable_rf.switch_to_output(value=True) # if U7
         _rf_cs1.switch_to_output(value=True)
