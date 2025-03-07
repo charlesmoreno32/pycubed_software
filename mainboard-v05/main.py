@@ -7,6 +7,7 @@ pycubed.org
 '''
 from pycubed import cubesat
 import time
+import board
 
 cubesat.neopixel.auto_write=False
 # cubesat.neopixel.brightness=1
@@ -30,4 +31,6 @@ def rainbow_cycle(wait):
 
 ######################### MAIN LOOP ##############################
 while True:
-     rainbow_cycle(0.1) # change value to adjust speed
+    print(dir(board))
+
+    rainbow_cycle(0.1) # change value to adjust speed

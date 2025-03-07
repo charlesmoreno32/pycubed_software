@@ -74,7 +74,7 @@ class Satellite:
                        'USB':    False,
                        'PWR':    False}
         # Define burn wires:
-        self._relayA = digitalio.DigitalInOut(board.RELAY_A)
+        # self._relayA = digitalio.DigitalInOut(board.RELAY_A)
         self._relayA.switch_to_output(drive_mode=digitalio.DriveMode.OPEN_DRAIN)
         self._resetReg = digitalio.DigitalInOut(board.VBUS_RST)
         self._resetReg.switch_to_output(drive_mode=digitalio.DriveMode.OPEN_DRAIN)
