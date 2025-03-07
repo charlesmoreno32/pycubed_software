@@ -98,12 +98,13 @@ class Satellite:
         # Define MPPT charge current measurement
 
         # Use a digital pin for programming if needed. Programming pin
-        # L1PROG -> D9
-        self._ichrg = AnalogIn(board.D9)
+        # the L1PROG pin is used to measure the charge current from the solar charging system
+        # L1PROG -> A1
+        self._ichrg = AnalogIn(board.A1)
 
-        # Use a digital pin to monitor charging status.
-        # CHRG -> D10
-        self._chrg = digitalio.DigitalInOut(board.D10)
+        # Use a digital pin to monitor charging status of the battery.
+        # CHRG -> D9
+        self._chrg = digitalio.DigitalInOut(board.D9)
         self._chrg.switch_to_input()
 
 
@@ -121,29 +122,29 @@ class Satellite:
 
         # Define GPS
         # Use a digital pin to enable/disable the GPS module
-        # EN_GPS -> D11
-        self.en_gps = digitalio.DigitalInOut(board.D11)
+        # EN_GPS -> D10
+        self.en_gps = digitalio.DigitalInOut(board.D10)
         self.en_gps.switch_to_output()
 
         # Define filesystem stuff
         self.logfile="/log.txt"
 
         # Define radio
-        # Use digital pins for chip select.
-        # RF1_CS -> D12
-        _rf_cs1 = digitalio.DigitalInOut(board.D12)
+        # Use digital pin for chip select signal for radio 1.
+        # RF1_CS -> D11
+        _rf_cs1 = digitalio.DigitalInOut(board.D11)
 
-        # Use digital pins for reset.
-        # RF1_RST -> D13
-        _rf_rst1 = digitalio.DigitalInOut(board.D13)
+        # Use digital pins to reset radio 1.
+        # RF1_RST -> D12
+        _rf_rst1 = digitalio.DigitalInOut(board.D12)
 
         # Use a digital pin to enable/disable the RF module.
-        # EN_RF -> D14
-        self.enable_rf = digitalio.DigitalInOut(board.D14)
+        # EN_RF -> D13
+        self.enable_rf = digitalio.DigitalInOut(board.D13)
 
         # Used as a Digital I/O (DIO) pin for the Radio 1 module, aka interrupt pin
-        # RF1_IO0 -> D15
-        self.radio1_DIO0=digitalio.DigitalInOut(board.D15)
+        # RF1_IO0 -> D14
+        self.radio1_DIO0=digitalio.DigitalInOut(board.D14)
         # self.enable_rf.switch_to_output(value=False) # if U21
         self.enable_rf.switch_to_output(value=True) # if U7
         _rf_cs1.switch_to_output(value=True)
